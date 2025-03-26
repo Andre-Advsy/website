@@ -13,6 +13,7 @@
       rel="stylesheet"
     />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://js.puter.com/v2/"></script>
     <style>
       body {
         display: flex;
@@ -80,9 +81,14 @@
         const now = new Date();
         const prompt = `Génère une courte citation inspirante pour un professionnel visitant ce site le ${now.toLocaleString()}`;
         
-        const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(prompt) + '&langpair=en|fr');
-        const data = await response.json();
-        document.getElementById('dynamic-text').innerText = data.responseData.translatedText || "Bienvenue sur la page d'André.";
+        puter.ai.chat(prompt)
+          .then(response => {
+            document.getElementById('dynamic-text').innerText = response;
+          })
+          .catch(error => {
+            console.error("Erreur lors de la génération du texte :", error);
+            document.getElementById('dynamic-text').innerText = "Bienvenue sur la page d'André.";
+          });
       }
       
       applyRandomStyles();
