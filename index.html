@@ -1,61 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:title" content="OSSPH Freefolio - Clean Template"/>
-    <meta property="og:description" content="100% FREE Professional Portfolio Templates - Clean Template"/>
+    <meta property="og:title" content="ANDRE - Page Dynamique"/>
+    <meta property="og:description" content="Une page professionnelle générée dynamiquement à chaque visite"/>
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://freefolio.web.app/clean" />
-    <meta
-        property="og:image"
-        content="https://i.postimg.cc/prrTdBX2/clean.png"
-    />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image:alt" content="OSSPH Freefolio">
-    <meta name="twitter:title" content="OSSPH Freefolio - Clean Template" />
-    <meta name="twitter:description" content="100% FREE Professional Portfolio Templates - Clean Template" />
-    <title>Clean a Freefolio template by OSSPH</title>
-    <link rel="stylesheet" href="./css/main.css" />
-    <link rel="shortcut icon" href="./img/logo.svg" type="image/x-icon" />
+    <title>ANDRE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Poppins', sans-serif;
+        text-align: center;
+        transition: all 0.5s ease-in-out;
+      }
+      .container {
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        transition: all 0.5s ease-in-out;
+      }
+      h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 18px;
+      }
+    </style>
   </head>
-
   <body>
-    <div class="container">
-      <header>
-        <a href="#" data-aos="fade-up"><img src="./img/logo.svg" alt="logo" /></a>
-      </header>
-      <main class="content">
-        <h1 data-aos="fade-up"><strong>Hello, I'm Lynda.</strong> I'm a creative producer.</h1>
-        <h3 data-aos="fade-up">Also, I do jokes on Twitter</h3>
-        <nav>
-          <a href="#" data-aos="fade-up">Portfolio</a>
-          <a href="#" data-aos="fade-up">Contact</a>
-        </nav>
-      </main>
-      <footer>
-        <div class="social">
-          <a href="#"><img src="img/youtube.svg" alt="Youtube" /></a>
-          <a href="#"><img src="img/twitter.svg" alt="Twitter" /></a>
-          <a href="#"><img src="img/facebook.svg" alt="Facebook" /></a>
-        </div>
-      </footer>
+    <div class="container" data-aos="fade-up">
+      <h1 id="title">ANDRE</h1>
+      <p id="dynamic-text">Chargement...</p>
     </div>
-    
+
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>       
-      AOS.init({
-          once: true,
-          delay: 0
-      });
+    <script>
+      AOS.init({ once: true, delay: 0 });
+
+      function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      function getRandomFont() {
+        const fonts = ['Poppins', 'Arial', 'Verdana', 'Roboto'];
+        return fonts[Math.floor(Math.random() * fonts.length)];
+      }
+
+      function applyRandomStyles() {
+        const bgColor = getRandomColor();
+        const textColor = getRandomColor();
+        const font = getRandomFont();
+
+        document.body.style.backgroundColor = bgColor;
+        document.body.style.color = textColor;
+        document.querySelector('.container').style.backgroundColor = getRandomColor();
+        document.querySelector('.container').style.color = getRandomColor();
+        document.body.style.fontFamily = font;
+      }
+
+      async function fetchAIResponse() {
+        const now = new Date();
+        const prompt = `Génère une courte citation inspirante pour un professionnel visitant ce site le ${now.toLocaleString()}`;
+        
+        const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(prompt) + '&langpair=en|fr');
+        const data = await response.json();
+        document.getElementById('dynamic-text').innerText = data.responseData.translatedText || "Bienvenue sur la page d'André.";
+      }
+      
+      applyRandomStyles();
+      fetchAIResponse();
     </script>
   </body>
 </html>
